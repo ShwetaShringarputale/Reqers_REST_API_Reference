@@ -1,0 +1,339 @@
+{
+	"info": {
+		"_postman_id": "f5d5642d-05f8-45f2-8f10-b34aac41a55a",
+		"name": "Reqers_REST_API_Reference",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27065087"
+	},
+	"item": [
+		{
+			"name": "Modify_Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Step 1: Validate The Status code\r",
+							"pm.test(\"Status code is 200\",function() {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"//Step 2.1 Fetch data from request\r",
+							"var resquestBody = pm.request.body.raw;\r",
+							"resquestBody = JSON.parse(resquestBody);\r",
+							"var res_name = resquestBody.name;\r",
+							"var res_job = resquestBody.job;\r",
+							"var res_id = resquestBody.id;\r",
+							"var res_updatedAt = resquestBody.updatedAt;\r",
+							"// Step 2.2 : Generate Date in required Format\r",
+							"var actualdate = new Date().toJSON().slice(0,13);\r",
+							"// Step 2.3 : Extract Response Body\r",
+							"var responseBody = pm.response.json();\r",
+							"var res_name = responseBody.name;\r",
+							"var res_job = responseBody.job;\r",
+							"var res_id = responseBody.id;\r",
+							"var res_updatedAt = responseBody.updatedAt; \r",
+							"res_updatedAt = res_updatedAt.slice(0,13);\r",
+							"//Step 2.4 : Validate Response Body Different function each and every function\r",
+							" pm.test(\"Validate Response Body Parameters Name\", function() {\r",
+							"     pm.expect(res_name).to.eql(res_name);\r",
+							" });\r",
+							" pm.test(\"Validate Response Body Parameters job\",function(){\r",
+							"     pm.expect(res_job).to.eql(res_job);\r",
+							" });\r",
+							"pm.test(\"Validate Response Body Parameters ID\",function(){\r",
+							"     pm.expect(res_id).to.not.null;\r",
+							"     pm.expect(res_id).to.not.eql(0);\r",
+							"});\r",
+							"pm.test(\"Validate Response Body Parameters Date\",function(){\r",
+							"    pm.expect(res_updatedAt).to.eql(actualdate);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var name=pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"pm.collectionVariables.set(\"Coll_Name\",name);\r",
+							"\r",
+							"var job=pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"pm.collectionVariables.set(\"Coll_Job\",job);\r",
+							"\r",
+							"var id = pm.variables.replaceIn('{{$randomInt}}');\r",
+							"pm.collectionVariables.set(\"Coll_Id\",id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{Coll_Name}}\",\r\n    \"job\": \"{{Coll_Job}}\",\r\n    \"id\": \"{{Coll_Id}}\"\r\n}\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Patch_URL}}",
+					"host": [
+						"{{Patch_URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/12",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Record",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Record",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//Step 1 : Validate the Status Code\r",
+							"pm.test(\" Status Code is 200\",function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});//Step 2 : Genarate date function\r",
+							"var actualdate = new Date().toISOString().slice(0,13);\r",
+							"//Step 2.1 : Validate Response Body and Fetch data from the Request\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"var req_name = requestBody.name;\r",
+							"var req_job = requestBody.job;\r",
+							"var req_city = requestBody.city;\r",
+							"var req_updatedAt = requestBody.updatedAt;\r",
+							"//Step 2.2 : Extract Body Parameters\r",
+							"var responseBody = pm.response.json();\r",
+							"var res_name = responseBody.name;\r",
+							"var res_job = responseBody.job;\r",
+							"var res_city = responseBody.city;\r",
+							"var res_updatedAt = responseBody.updatedAt;\r",
+							"res_updatedAt = res_updatedAt.slice (0,13);\r",
+							"//Step 2.3 : Validate Response Body\r",
+							"pm.test(\"Validate Response Body Parameters Name\",function(){\r",
+							"    pm.expect(res_name).to.eql(req_name); \r",
+							"});\r",
+							"pm.test(\"Validate Response Body Parameters Job\", function(){\r",
+							"    pm.expect(res_job).to.eql(req_job);\r",
+							"});\r",
+							"pm.test(\"Validate Response Body Parameters City\", function(){\r",
+							"    pm.expect(res_city).to.eql(req_city);\r",
+							"});\r",
+							"pm.test(\"Validate Response Body Parameters Date\",function(){\r",
+							"    pm.expect(req_updatedAt).to.eql(req_updatedAt);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var name=pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"pm.collectionVariables.set(\"Coll_Name\",name);\r",
+							"\r",
+							"var job=pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"pm.collectionVariables.set(\"Coll_Job\",job);\r",
+							"\r",
+							"var city = pm.variables.replaceIn('{{$randomCity}}');\r",
+							"pm.collectionVariables.set(\"Coll_city\",city);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{Coll_Name}}\",\r\n    \"job\": \"{{Coll_Job}}\",\r\n    \"city\":\"{{Coll_city}}\"\r\n    \r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Put_URL}}",
+					"host": [
+						"{{Put_URL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create_Record",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							"var name = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+							"pm.collectionVariables.set(\"coll_name\",name);\r",
+							"\r",
+							"var job = pm.variables.replaceIn('{{$randomJobTitle}}');\r",
+							"pm.collectionVariables.set(\"coll_job\",job);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"//step 1 : vailate status code\r",
+							"pm.test(\"status code is 201\",function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"//step 2 :Decalre request body\r",
+							"var requestBody = pm.request.body.raw;\r",
+							"requestBody = JSON.parse(requestBody);\r",
+							"var req_name = requestBody.name;\r",
+							"var req_job = requestBody.job;\r",
+							"//var req_createdAt = responseBody.createdAt;\r",
+							"//step 3: generate actual date\r",
+							"var actualdate = new Date().toJSON().slice(0,13);\r",
+							"//declare the respose body\r",
+							"var responseBody = pm.response.json();\r",
+							"var res_name = responseBody.name;\r",
+							"var res_job = responseBody.job;\r",
+							"var res_createdAt = responseBody.createdAt;\r",
+							"res_createdAt = res_createdAt.slice(0,13);\r",
+							"//step 5 Validate the respose body\r",
+							"pm.test(\"validate the response body Parameters Name\",function(){\r",
+							"    pm.expect(res_name).to.eql(req_name);\r",
+							"});\r",
+							"pm.test(\"Validate the respose Parameters Job\",function(){\r",
+							"    pm.expect(res_job).to.eql(req_job);\r",
+							"});\r",
+							"pm.test(\"vailate the respose Parameters Date\",function(){\r",
+							"    pm.expect(res_createdAt).to.eql(actualdate);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"{{coll_name}}\",\r\n    \"job\": \"{{coll_job}}\"\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Post_URL}}",
+					"host": [
+						"{{Post_URL}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "coll_name",
+			"value": ""
+		},
+		{
+			"key": "coll_job",
+			"value": ""
+		},
+		{
+			"key": "Coll_Name",
+			"value": ""
+		},
+		{
+			"key": "Coll_Job",
+			"value": ""
+		},
+		{
+			"key": "Coll_city",
+			"value": ""
+		}
+	]
+}
